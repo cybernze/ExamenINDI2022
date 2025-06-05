@@ -2,11 +2,10 @@
 
 MyForm::MyForm (QWidget* parent) : QWidget(parent)
 {
-  ui.setupUi(this);
+    ui.setupUi(this);
     connect(ui.aturaButton, &QPushButton::clicked, [this]() {
         ui.widget->atura();
     });
-
     connect(ui.engegaButton, &QPushButton::clicked, [this]() {
         ui.widget->engega();
     });

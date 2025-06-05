@@ -88,6 +88,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     glm::vec3 obs, vrp, up;
     bool camera2;
 
+    //Definir posicion del foco
     GLuint posFocusLoc;
     glm::vec4 posFocus;
 

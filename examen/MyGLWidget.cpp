@@ -67,20 +67,24 @@ void MyGLWidget::iniEscena ()
 //Paràmetres inicials de càmera
 void MyGLWidget::iniCamera ()
 {
+    //Angles per gir de càmera
     angleX=0;
     angleY=glm::radians(-1.0);
 
+    //Distància es el doble del radi
     float d= 2*radiEsc;
 
+    //Obs --> punt observat + distancia en eix z
     obs = vrp + (d*glm::vec3(0,0,1));
+    //visualitzem el centre de escena
     vrp=centreEsc;
 
     up = glm::vec3(0,1,0);
     zn = d - radiEsc;
     zf = d + radiEsc;
 
-    float alpha_v = asin(radiEsc/d);
-    fov = (float) 2*alpha_v;
+    float angle = asin(radiEsc/d);
+    fov = (float) 2*angle;
 
     ra = 1.0;
 
@@ -170,8 +174,9 @@ void MyGLWidget::projectTransform ()
     glm::mat4 Proj;  // Matriu de projecció
 
     if (camera2) {
-        float zn_n = 0.25;
-        Proj = glm::perspective(glm::radians(60.0f), ra, zn_n, zf);
+        float zn2 = 0.25;
+        //Apertura de 60 graus
+        Proj = glm::perspective(glm::radians(60.0f), ra, zn2, zf);
     }
     else {
         Proj = glm::perspective(fov, ra, zn, zf);
@@ -184,10 +189,13 @@ void MyGLWidget::viewTransform ()
 {
     View = glm::mat4(1.0f);
     if(camera2){
-        glm::vec3 obs_n = glm::vec3(-5, 25, 0);
-        glm::vec3 vrp_n = glm::vec3(0,23,0);
-        glm::vec3 up_n = glm::vec3(0, 1, 0);
-        View = glm::lookAt(obs_n, vrp_n, up_n);
+        //Punt de observador
+        glm::vec3 obs2 = glm::vec3(-5, 25, 0);
+        //Punt a on observa
+        glm::vec3 vrp2 = glm::vec3(0,23,0);
+        //Vector up
+        glm::vec3 up2 = glm::vec3(0, 1, 0);
+        View = glm::lookAt(obs2, vrp2, up2);
     }
     else{
         View = glm::translate(View, glm::vec3(0.0, 0.0, -2 * radiEsc));
@@ -242,6 +250,7 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event)
     update();
 }
 
+//Envia la posicio del focus al shader
 void MyGLWidget::enviaPosFocus()
 {
     posFocus = glm::vec4(0, 0, 0, 0); //Focus de Camera.
@@ -345,6 +354,7 @@ void MyGLWidget::carregaShaders()
   transLoc = glGetUniformLocation (program->programId(), "TG");
   projLoc = glGetUniformLocation (program->programId(), "proj");
   viewLoc = glGetUniformLocation (program->programId(), "view");
+  //Acordar de cargar la posicion del foco en el shader!!!
   posFocusLoc = glGetUniformLocation(program->programId(), "posFoc");
 }
 
@@ -600,6 +610,7 @@ void MyGLWidget::engega() {
   timer.start(16);
 }
 
+//Configurar camera
 void MyGLWidget::setCamera()
 {
     makeCurrent();
@@ -609,6 +620,7 @@ void MyGLWidget::setCamera()
     update();
 }
 
+//Reset escena
 void MyGLWidget::resetEscena(){
     angleX=0;
     angleY=glm::radians(-1.0);
